@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
 
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/fullchain.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/options-ssl-apache.conf.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
