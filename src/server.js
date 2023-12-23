@@ -21,7 +21,13 @@ app.use((req, res, next) => {
 app.use('/public/uploads', express.static('public/uploads'));
 
 app.use(cors({
-  origin: 'https://gelenrest.ru',
+  origin: (origin, callback) => {
+    if (origin === 'https://gelenrest.ru' || origin === 'https://www.gelenrest.ru') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
