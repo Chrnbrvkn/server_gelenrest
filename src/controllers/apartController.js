@@ -72,25 +72,6 @@ class ApartController {
         return res.status(404).json({ error: 'Apart not found' })
       }
       await apart.update(req.body)
-      // await apart.update({
-      //   name: req.body.name,
-      //   address: req.body.address,
-      //   price: req.body.price,
-      //   description_1: req.body.description_1,
-      //   description_2: req.body.description_2,
-      //   description_3: req.body.description_3,
-      //   description_4: req.body.description_4,
-      //   roomCount: req.body.roomCount,
-      //   roomCategories: req.body.roomCategories,
-      //   meal: req.body.meal,
-      //   bookingConditions: req.body.bookingConditions,
-      //   checkoutTime: req.body.checkoutTime,
-      //   timeToSea: req.body.timeToSea,
-      //   timeToMarket: req.body.timeToMarket,
-      //   timeToCafe: req.body.timeToCafe,
-      //   timeToBusStop: req.body.timeToBusStop,
-      //   timeToBusCityCenter: req.body.timeToBusCityCenter
-      // }, { where: { id: apartId } })
       const updatedApart = await Aparts.findByPk(apartId)
       return res.json(updatedApart)
     } catch (e) {

@@ -10,6 +10,14 @@ const https = require('https');
 const PORT = process.env.PORT || 8080
 const app = express()
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://www.gelenrest.ru');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 app.use('/public/uploads', express.static('public/uploads'));
 
 app.use(cors({
