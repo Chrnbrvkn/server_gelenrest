@@ -44,7 +44,7 @@ app.use((err, req, res, next) => {
 
 const privateKey = fs.readFileSync('./ssl/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('./ssl/fullchain.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/chain.pem', 'utf8');
+const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
