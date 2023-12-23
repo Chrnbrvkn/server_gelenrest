@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use('/public/uploads', express.static('public/uploads'));
 
 app.use(cors({
-  origin: 'https://www.gelenrest.ru',
+  origin: 'https://gelenrest.ru',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));

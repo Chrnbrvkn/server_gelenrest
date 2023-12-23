@@ -2,9 +2,7 @@ const ApiError = require('../error/ApiError');
 const { Users } = require('../models/models')
 
 class UserController {
-  // async test(req,res){
-  //   return res.json('HOOOLAAA')
-  // }
+
   async createUser(req, res) {
     try {
       const { email, password, name, surname, role } = req.body
