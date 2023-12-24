@@ -21,13 +21,7 @@ app.use((req, res, next) => {
 app.use('/public/uploads', express.static('public/uploads'));
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (/\.gelenrest\.ru$/.test(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
@@ -58,7 +52,7 @@ const start = async () => {
     await sequelize.authenticate()
     await sequelize.sync()
     httpsServer.listen(PORT, () => {
-      console.log(`Server is running on https://api.gelenrest.ru:${PORT}`);
+      console.log(`Server is running on https://gelenrest.ru:${PORT}`);
     });
 
   } catch (e) {
