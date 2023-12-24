@@ -39,9 +39,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-const privateKey = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\privkey.pem', 'utf8');
-const certificate = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\fullchain.pem', 'utf8');
-const ca = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\chain.pem', 'utf8');
+const privateKey = fs.readFileSync('./ssl/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('./ssl/fullchain.pem', 'utf8');
+const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
