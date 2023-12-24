@@ -58,7 +58,7 @@ const start = async () => {
     await sequelize.authenticate()
     await sequelize.sync()
     httpsServer.listen(PORT, () => {
-      console.log(`Server is running on https://gelenrest.ru:${PORT}`);
+      console.log(`Server is running on https://api.gelenrest.ru:${PORT}`);
     });
 
   } catch (e) {
