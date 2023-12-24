@@ -10,21 +10,24 @@ const https = require('https');
 const PORT = process.env.PORT || 8080
 const app = express()
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   next();
+// });
 
 app.use('/public/uploads', express.static('public/uploads'));
 
-app.use(cors({
-  origin: '*',
+const corsOptions = {
+  origin: 'https://gelenrest.ru', // Разрешить только ваш клиентский домен
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true
-}));
+  credentials: true,
+  optionsSuccessStatus: 200 // некоторые старые браузеры не поддерживают 204
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, 'public_html')));
 
@@ -36,9 +39,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-const privateKey = fs.readFileSync('./ssl/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('./ssl/fullchain.pem', 'utf8');
-const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\privkey.pem', 'utf8');
+const certificate = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\fullchain.pem', 'utf8');
+const ca = fs.readFileSync('C:\\Users\\prosh\\Desktop\\server_gelenrest\\src\\ssl\\chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
