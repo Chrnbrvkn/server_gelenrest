@@ -22,7 +22,7 @@ app.use('/public/uploads', express.static('public/uploads'));
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (origin === 'https://gelenrest.ru' || origin === 'https://www.gelenrest.ru') {
+    if (/\.gelenrest\.ru$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
