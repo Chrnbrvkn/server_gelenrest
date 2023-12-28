@@ -10,21 +10,21 @@ const https = require('https');
 const PORT = process.env.PORT || 8080
 const app = express()
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   next();
-// });
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 app.use('/public/uploads', express.static('public/uploads'));
 
 const corsOptions = {
-  origin: 'https://gelenrest.ru', // Разрешить только ваш клиентский домен
+  origin: 'https://gelenrest.ru',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
-  optionsSuccessStatus: 200 // некоторые старые браузеры не поддерживают 204
+  optionsSuccessStatus: 200 
 };
 
 app.use(cors(corsOptions));
