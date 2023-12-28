@@ -10,6 +10,8 @@ const https = require('https');
 const PORT = process.env.PORT || 8080
 const app = express()
 
+app.use('/public/uploads', express.static('public/uploads'));
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
@@ -18,7 +20,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/public/uploads', express.static('public/uploads'));
 
 const corsOptions = {
   origin: 'https://gelenrest.ru',
@@ -27,17 +28,15 @@ const corsOptions = {
   optionsSuccessStatus: 200 
 };
 
-app.use(cors());
-
-app.use(express.static(path.join(__dirname, 'public_html')));
+app.use(cors(corsOptions));
 
 app.use(express.json())
 app.use('/api', router)
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Something broke!');
+// });
 
 const privateKey = fs.readFileSync('./ssl/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('./ssl/fullchain.pem', 'utf8');
