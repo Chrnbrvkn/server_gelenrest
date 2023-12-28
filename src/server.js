@@ -52,7 +52,7 @@ const httpsServer = https.createServer(credentials, app);
 const start = async () => {
   try {
     await sequelize.authenticate()
-    await sequelize.sync()
+    await sequelize.sync({ force: true })
     httpsServer.listen(PORT, () => {
       console.log(`Server is running on https://api.gelenrest.ru:${PORT}`);
     });
