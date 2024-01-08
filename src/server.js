@@ -38,14 +38,14 @@ app.use('/api', router)
 //   res.status(500).send('Something broke!');
 // });
 
-const privateKey = fs.readFileSync('./ssl/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('./ssl/fullchain.pem', 'utf8');
-const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/fullchain.pem', 'utf8');
+// const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
   cert: certificate,
-  ca: ca
+  // ca: ca
 };
 
 const httpsServer = https.createServer(credentials, app);
