@@ -32,35 +32,17 @@ app.use(cors(corsOptions));
 app.use(express.json())
 app.use('/api', router)
 
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send('Something broke!');
-// });
+const start = async () => {
+  try {
+    await sequelize.authenticate()
+    await sequelize.sync({ force: true })
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
 
-// const privateKey = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/privkey.pem', 'utf8');
-// const certificate = fs.readFileSync('/etc/letsencrypt/live/api.gelenrest.ru/fullchain.pem', 'utf8');
-// const ca = fs.readFileSync('./ssl/chain.pem', 'utf8');
+  } catch (e) {
+    console.log(e);
+  }
+}
 
-// const credentials = {
-// key: privateKey,
-// cert: certificate,
-// ca: ca
-// };
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-// const start = async () => {
-//   try {
-//     // await sequelize.authenticate()
-//     // await sequelize.sync({ force: true })
-//     httpsServer.listen(PORT, () => {
-//       console.log(`Server is running on https://api.gelenrest.ru:${PORT}`);
-//     });
-
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
-// start()
+start()

@@ -98,4 +98,4 @@ Rooms.belongsTo(Houses, { foreignKey: 'houseId' });
 
 
 
-// module.exports = { Users, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures };
+module.exports = { Users, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures };
