@@ -82,18 +82,18 @@ const ApartsPictures = sequelize.define('apartPictures', {
   apartId: { type: DataTypes.INTEGER, allowNull: false }
 })
 
-Aparts.hasMany(ApartsPictures, { foreignKey: 'apartId', as: 'apartPictures', onDelete: 'CASCADE' });
-ApartsPictures.belongsTo(Aparts, { foreignKey: 'apartId' });
+// Aparts.hasMany(ApartsPictures, { foreignKey: 'apartId', as: 'apartPictures', onDelete: 'CASCADE' });
+// ApartsPictures.belongsTo(Aparts, { foreignKey: 'apartId' });
 
 
-Houses.hasMany(HousesPictures, { foreignKey: 'houseId', as: 'housePictures', onDelete: 'CASCADE' });
-HousesPictures.belongsTo(Houses, { foreignKey: 'houseId' });
+// Houses.hasMany(HousesPictures, { foreignKey: 'houseId', as: 'housePictures', onDelete: 'CASCADE' });
+// HousesPictures.belongsTo(Houses, { foreignKey: 'houseId' });
 
-Rooms.hasMany(RoomsPictures, { foreignKey: 'roomId', as: 'roomPictures', onDelete: 'CASCADE' });
-RoomsPictures.belongsTo(Rooms, { foreignKey: 'roomId' });
+// Rooms.hasMany(RoomsPictures, { foreignKey: 'roomId', as: 'roomPictures', onDelete: 'CASCADE' });
+// RoomsPictures.belongsTo(Rooms, { foreignKey: 'roomId' });
 
-Houses.hasMany(Rooms, { foreignKey: 'houseId', as: 'rooms', onDelete: 'CASCADE' });
-Rooms.belongsTo(Houses, { foreignKey: 'houseId' });
+// Houses.hasMany(Rooms, { foreignKey: 'houseId', as: 'rooms', onDelete: 'CASCADE' });
+// Rooms.belongsTo(Houses, { foreignKey: 'houseId' });
 
 
 
