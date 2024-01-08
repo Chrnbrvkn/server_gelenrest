@@ -11,7 +11,7 @@ const apartsPicturesController = require('../controllers/apartsPicturesControlle
 const roomsPicturesController = require('../controllers/roomsPicturesController')
 
 // users
-router.get('/test', 'HIII IM BORNING!!!')
+router.get('/test', userController.test)
 router.get('/users', userController.getUsers)
 router.get('/users/:userId', userController.getOneUser)
 router.post('/users', upload.none(), userController.createUser)

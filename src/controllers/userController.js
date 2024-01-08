@@ -14,6 +14,10 @@ class UserController {
     }
   }
 
+  async test(req, res) {
+
+    return res.json('HIII IM BORNING!!!')
+  }
   async getOneUser(req, res) {
     const { id } = req.params
     if (!id) {
