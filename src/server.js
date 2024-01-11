@@ -9,7 +9,7 @@ const app = express();
 
 app.use('/public/uploads', express.static('public/uploads'));
 
-const allowedOrigins = ['https://gelenrest.ru','https://www.gelenrest.ru', 'https://192.168.0.103:5173'];
+const allowedOrigins = ['https://gelenrest.ru','https://www.gelenrest.ru', 'https://192.168.0.103:5173', 'https://localhost:5173'];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -25,6 +25,11 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  console.log('Origin:', req.get('Origin'));
+  next();
+});
 
 app.use(express.json());
 app.use('/api', router);
