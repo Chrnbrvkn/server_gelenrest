@@ -9,8 +9,7 @@ const app = express();
 
 app.use('/public/uploads', express.static('public/uploads'));
 
-const allowedOrigins = '*';
-// const allowedOrigins = ['https://gelenrest.ru','https://www.gelenrest.ru', 'http://192.168.0.103:5173'];
+const allowedOrigins = ['https://gelenrest.ru','https://www.gelenrest.ru', 'https://192.168.0.103:5173'];
 
 const corsOptions = {
   origin: (origin, callback) => {

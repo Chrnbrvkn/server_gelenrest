@@ -17,7 +17,7 @@
     <Proxy *>
         Require all granted
     </Proxy>
-    <Directory /path/to/your/nodejs/app>
+    <Directory /var/www/server_gelenrest/src>
         Require all granted
     </Directory>
     <Location />
