@@ -36,3 +36,24 @@ const upload = multer({
 });
 
 module.exports = upload;
+
+// оптимизация, сжатие картинок
+// const sharp = require('sharp');
+
+// multer.diskStorage({
+//   // ... ваша текущая настройка ...
+//   filename: function (req, file, cb) {
+//     const filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+//     cb(null, filename);
+
+//     // Изменение размера и сжатие изображения
+//     sharp(file.buffer)
+//       .resize(800) // Меняем размер до ширины 800px, высота изменится пропорционально
+//       .toFormat('jpeg', { quality: 80 }) // Конвертируем в JPEG с качеством 80%
+//       .toFile(`public/uploads/${filename}`);
+//   }
+// });
+// изменение формата картинок
+// sharp(file.buffer)
+//   .toFormat('webp', { quality: 80 })
+//   .toFile(`public/uploads/${filename}`);
