@@ -3,7 +3,7 @@ const { Users } = require('../models/models')
 
 class UserController {
 
-  async createUser(req, res) {
+  async   createUser(req, res) {
     try {
       const { email, password, name, surname, role } = req.body
       const user = await Users.create({ email, password, name, surname, role })
