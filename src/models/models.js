@@ -27,7 +27,24 @@ const Houses = sequelize.define('house', {
   timeToMarket: { type: DataTypes.STRING, allowNull: true },
   timeToCafe: { type: DataTypes.STRING, allowNull: true },
   timeToBusStop: { type: DataTypes.STRING, allowNull: true },
-  timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true }
+  timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true },
+  internet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  tv: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  pool: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  babyCot: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  yard: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  dishwasher: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  washingMachine: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  diningArea: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  freeParking: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  roomCleaning: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  beddingChange: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  sharedKitchen: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  iron: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  bbqGrill: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  refrigerator: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  transferService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  laundryService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
 })
 const HousesPictures = sequelize.define('housePictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -45,7 +62,8 @@ const Rooms = sequelize.define('room', {
   bedroom: { type: DataTypes.STRING, allowNull: false },
   bathroom: { type: DataTypes.STRING, allowNull: false },
   meal: { type: DataTypes.STRING, allowNull: false },
-  facilities: { type: DataTypes.STRING, allowNull: false},
+  facilities: { type: DataTypes.STRING, allowNull: false },
+  level: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 1 },
   houseId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'houses', key: 'id' } },
 });
 
@@ -74,13 +92,43 @@ const Aparts = sequelize.define('apart', {
   timeToMarket: { type: DataTypes.STRING, allowNull: true },
   timeToCafe: { type: DataTypes.STRING, allowNull: true },
   timeToBusStop: { type: DataTypes.STRING, allowNull: true },
-  timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true }
+  timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true },
+  level: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 1 },
+  internet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  tv: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  pool: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  babyCot: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  yard: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  dishwasher: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  washingMachine: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  diningArea: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  freeParking: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  roomCleaning: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  beddingChange: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  sharedKitchen: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  iron: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  bbqGrill: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  refrigerator: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  transferService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  laundryService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
 })
 const ApartsPictures = sequelize.define('apartPictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
   apartId: { type: DataTypes.INTEGER, allowNull: false }
 })
+
+const Bookings = sequelize.define('booking', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  guestName: { type: DataTypes.STRING, allowNull: false },
+  guestContact: { type: DataTypes.STRING, allowNull: false },
+  checkInDate: { type: DataTypes.DATE, allowNull: false },
+  checkOutDate: { type: DataTypes.DATE, allowNull: false },
+  status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'PENDING' }, // Примеры статусов: PENDING, CONFIRMED, CANCELLED
+  itemId: { type: DataTypes.INTEGER, allowNull: false },
+  itemType: { type: DataTypes.STRING, allowNull: false } // 'room' или 'apart'
+});
+
 
 Aparts.hasMany(ApartsPictures, { foreignKey: 'apartId', as: 'apartPictures', onDelete: 'CASCADE' });
 ApartsPictures.belongsTo(Aparts, { foreignKey: 'apartId' });
@@ -98,4 +146,4 @@ Rooms.belongsTo(Houses, { foreignKey: 'houseId' });
 
 
 
-module.exports = { Users, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures };
+module.exports = { Users, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures, Bookings };

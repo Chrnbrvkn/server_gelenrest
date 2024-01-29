@@ -32,26 +32,7 @@ class HouseController {
 
   async createHouse(req, res) {
     try {
-      const { name, address, description_1,
-        description_2, description_3, description_4, roomCount, roomCategories, meal, bookingConditions, checkoutTime, timeToSea, timeToMarket, timeToCafe, timeToBusStop, timeToBusCityCenter } = req.body;
-      const house = await Houses.create({
-        name,
-        address,
-        description_1,
-        description_2,
-        description_3,
-        description_4,
-        roomCount,
-        roomCategories,
-        meal,
-        bookingConditions,
-        checkoutTime,
-        timeToSea,
-        timeToMarket,
-        timeToCafe,
-        timeToBusStop,
-        timeToBusCityCenter,
-      });
+      const house = await Houses.create({ ...req.body });
       return res.json(house)
     } catch (e) {
       console.log(e);

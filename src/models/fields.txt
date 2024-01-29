@@ -1,0 +1,37 @@
+Houses
+id : уникальный номер в бд
+name : название дома
+address : адрес
+description_1 : описание 1 
+description_2 : описание 2
+description_3 : описание 3
+description_4 : описание 4
+roomCount : количество комнат
+roomCategories : категории комнат
+meal : питание
+bookingConditions : условия бронирования 
+checkoutTime : время заезда и выезда
+timeToSea : время до моря
+timeToMarket : время до магазина
+timeToCafe : время до кафе
+timeToBusStop : время до автобусной остановки
+timeToBusCityCenter : время до центра города
+internet : Интернет
+tv : ТВ
+pool : Бассейн
+babyCot : Детская кроватка
+yard : Двор
+dishwasher : Посудомоечная машина
+washingMachine : Стиральная машина
+diningArea : Столовая
+freeParking : Свободная парковка
+roomCleaning : Уборка в номерах
+beddingChange : Смена постельного белья
+sharedKitchen : Общая кухня
+iron : Утюг
+bbqGrill : Мангал
+refrigerator : Холодильник
+transferService : Трансфер
+laundryService : Прачечная
+
+

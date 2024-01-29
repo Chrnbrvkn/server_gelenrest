@@ -49,21 +49,11 @@ class RoomController {
 
   async createRoom(req, res) {
     try {
-      const { name, address, price, roomCount, bedroom, bathroom, meal, facilities, houseId } = req.body
+      const { houseId } = req.body
       if (!houseId) {
         return res.status(400).json({ error: 'House ID is required.' });
       }
-      const room = await Rooms.create({
-        name,
-        address,
-        price,
-        roomCount,
-        bedroom,
-        bathroom,
-        meal,
-        facilities,
-        houseId
-      })
+      const room = await Rooms.create({ ...req.body })
       return res.json(room)
     } catch (e) {
       console.error(e);

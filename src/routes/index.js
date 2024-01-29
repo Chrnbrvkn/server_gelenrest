@@ -10,6 +10,8 @@ const housesPicturesController = require('../controllers/housesPicturesControlle
 const apartsPicturesController = require('../controllers/apartsPicturesController')
 const roomsPicturesController = require('../controllers/roomsPicturesController')
 
+const bookingController = require('../controllers/bookingController')
+
 const { sendModalCallback } = require('../controllers/tgBotController')
 
 // users
@@ -57,6 +59,12 @@ router.get('/room/:roomId/pictures/:imageId', roomsPicturesController.getOnePict
 router.post('/room/:roomId/pictures', upload.array('roomsPictures', 10), roomsPicturesController.uploadPictures)
 router.delete('/room/:roomId/pictures/:imageId', roomsPicturesController.deletePicture)
 
+// booking
+router.get('/booking', bookingController.getBookings)
+router.get('/booking/:bookingId', bookingController.getOneBooking)
+router.post('/booking', bookingController.createBooking)
+router.patch('/booking/:bookingId', bookingController.updateBooking)
+router.delete('/booking/:bookingId', bookingController.deleteBooking)
 // tgBot
 router.post('/callback-modal', sendModalCallback);
 module.exports = router

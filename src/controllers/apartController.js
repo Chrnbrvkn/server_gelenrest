@@ -33,27 +33,7 @@ class ApartController {
 
   async createApart(req, res) {
     try {
-      const { name, address, price, description_1,
-        description_2, description_3, description_4, roomCount, roomCategories, meal, bookingConditions, checkoutTime, timeToSea, timeToMarket, timeToCafe, timeToBusStop, timeToBusCityCenter } = req.body
-      const apart = await Aparts.create({
-        name,
-        address,
-        price,
-        description_1,
-        description_2,
-        description_3,
-        description_4,
-        roomCount,
-        roomCategories,
-        meal,
-        bookingConditions,
-        checkoutTime,
-        timeToSea,
-        timeToMarket,
-        timeToCafe,
-        timeToBusStop,
-        timeToBusCityCenter
-      })
+      const apart = await Aparts.create({ ...req.body })
       return res.json(apart)
     } catch (e) {
       console.log(e);
