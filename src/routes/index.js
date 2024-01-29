@@ -10,7 +10,7 @@ const housesPicturesController = require('../controllers/housesPicturesControlle
 const apartsPicturesController = require('../controllers/apartsPicturesController')
 const roomsPicturesController = require('../controllers/roomsPicturesController')
 
-const sendModalCallback = require('../controllers/tgBotController')
+const { sendModalCallback } = require('../controllers/tgBotController')
 
 // users
 router.get('/test', userController.test)
