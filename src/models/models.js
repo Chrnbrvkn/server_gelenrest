@@ -52,7 +52,6 @@ const HousesPictures = sequelize.define('housePictures', {
   houseId: { type: DataTypes.INTEGER, allowNull: false }
 })
 
-//добавить поле этаж!!!
 const Rooms = sequelize.define('room', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
