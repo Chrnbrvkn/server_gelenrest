@@ -59,7 +59,7 @@ class HousesPicturesController {
     try {
       const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
         const picture = await HousesPictures.create({
-          url: path.replace('public', ''), // Удалите 'public' для сохранения относительного URL
+          url: path,
           houseId: houseId
         });
         return picture.url;

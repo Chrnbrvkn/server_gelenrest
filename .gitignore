@@ -3,3 +3,4 @@
 deploy.bat
 /src/ssl/
 .env
+/public/

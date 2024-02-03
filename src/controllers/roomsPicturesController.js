@@ -4,7 +4,7 @@ const path = require('path');
 
 class RoomsPicturesController {
 
-  async getAllPictures(req, res){
+  async getAllPictures(req, res) {
     const allPictures = await RoomsPictures.findAll()
     return res.json(allPictures)
   }
@@ -51,13 +51,13 @@ class RoomsPicturesController {
       if (!roomId) {
         return res.status(400).json({ error: 'Room ID is required' });
       }
-
-      const pictureUrls = [];
-      for (const file of req.files) {
-        const tempUrl = '/public/uploads/roomsPictures/' + file.filename;
-        const picture = await RoomsPictures.create({ url: tempUrl, roomId: roomId });
-        pictureUrls.push(picture.url);
+      if (!req.processedFiles || req.processedFiles.length === 0) {
+        return res.status(400).json({ error: 'No processed files found' });
       }
+      const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
+        const picture = await RoomsPictures.create({ url: path, roomId: roomId });
+        return picture.url
+      }))
 
       return res.json(pictureUrls);
     } catch (e) {

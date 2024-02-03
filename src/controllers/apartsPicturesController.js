@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 class ApartsPicturesController {
-  
-  async getAllPictures(req, res){
+
+  async getAllPictures(req, res) {
     const allPictures = await ApartsPictures.findAll()
     return res.json(allPictures)
   }
@@ -46,18 +46,24 @@ class ApartsPicturesController {
   }
 
   async uploadPictures(req, res) {
-    try {
-      const { apartId } = req.params;
-      if (!apartId) {
-        return res.status(400).json({ error: 'Apartment ID is required' });
-      }
+    const { apartId } = req.params;
 
-      const pictureUrls = [];
-      for (const file of req.files) {
-        const tempUrl = '/public/uploads/apartsPictures/' + file.filename;
-        const picture = await ApartsPictures.create({ url: tempUrl, apartId: apartId });
-        pictureUrls.push(picture.url);
-      }
+    if (!apartId) {
+      return res.status(400).json({ error: 'Apartment ID is required' });
+    }
+
+    if (!req.processedFiles || req.processedFiles.length === 0) {
+      return res.status(400).json({ error: 'No processed files found' });
+    }
+
+    try {
+      const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
+        const picture = await ApartsPictures.create({
+          url: path,
+          apartId: apartId
+        });
+        return picture.url
+      }))
 
       return res.json(pictureUrls);
     } catch (e) {
@@ -67,8 +73,8 @@ class ApartsPicturesController {
   }
 
   async deletePicture(req, res) {
-    const { apartId, imageId } = req.params;
     try {
+      const { apartId, imageId } = req.params;
       if (!imageId) {
         return res.status(400).json({ error: 'ID not specified' })
       }
