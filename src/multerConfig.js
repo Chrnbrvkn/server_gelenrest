@@ -43,6 +43,7 @@ const processAndSaveImage = async (req, res, next) => {
 
     const processedFilesInfo = await Promise.all(req.files.map(async (file) => {
       const filename = `${file.fieldname}-${Date.now()}.webp`;
+      const relativeOutputPath = `/public/uploads/${req.path.includes('/house') ? 'housesPictures' : req.path.includes('/apart') ? 'apartsPictures' : 'roomsPictures'}/${filename}`;
       const outputPath = path.join(uploadPath, filename);
 
       await sharp(file.buffer)
@@ -50,7 +51,7 @@ const processAndSaveImage = async (req, res, next) => {
         .toFormat('webp', { quality: 80 })
         .toFile(outputPath);
 
-      return { filename, path: outputPath };
+      return { filename, path: relativeOutputPath };
     }));
 
     req.processedFiles = processedFilesInfo; // Сохраняем информацию об обработанных файлах в req

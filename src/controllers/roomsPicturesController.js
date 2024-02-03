@@ -55,7 +55,9 @@ class RoomsPicturesController {
         return res.status(400).json({ error: 'No processed files found' });
       }
       const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
-        const picture = await RoomsPictures.create({ url: path, roomId: roomId });
+        const picture = await RoomsPictures.create({ 
+          url: path, 
+          roomId: roomId });
         return picture.url
       }))
 
