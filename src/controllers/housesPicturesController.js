@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 class HousesPicturesController {
-  
-  async getAllPictures(req, res){
+
+  async getAllPictures(req, res) {
     const allPictures = await HousesPictures.findAll()
     return res.json(allPictures)
   }
@@ -46,22 +46,28 @@ class HousesPicturesController {
   }
 
   async uploadPictures(req, res) {
+    const { houseId } = req.params;
+
+    if (!houseId) {
+      return res.status(400).json({ error: 'House ID is required' });
+    }
+
+    if (!req.processedFiles || req.processedFiles.length === 0) {
+      return res.status(400).json({ error: 'No processed files found' });
+    }
+
     try {
-      const { houseId } = req.params
-      if (!houseId) {
-        return res.status(400).json({ error: 'House ID is required' });
-      }
+      const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
+        const picture = await HousesPictures.create({
+          url: path.replace('public', ''), // Удалите 'public' для сохранения относительного URL
+          houseId: houseId
+        });
+        return picture.url;
+      }));
 
-      const pictureUrls = [];
-      for (const file of req.files) {
-        const tempUrl = '/public/uploads/housesPictures/' + file.filename;
-        const picture = await HousesPictures.create({ url: tempUrl, houseId: houseId });
-        pictureUrls.push(picture.url);
-      }
-
-      return res.json(pictureUrls);
-    } catch (e) {
-      console.error(e);
+      res.json(pictureUrls);
+    } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }

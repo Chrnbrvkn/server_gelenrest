@@ -5,50 +5,44 @@ const util = require('util');
 const mkdir = util.promisify(fs.mkdir);
 const path = require('path');
 
+// Хранение файлов в памяти для последующей обработки с помощью sharp
 const storage = multer.memoryStorage();
 
+// Фильтр для проверки типов файлов
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/webp' ||
-      file.mimetype === 'image/jpg') {
+  if (['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(file.mimetype)) {
     cb(null, true);
   } else {
     cb(new Error('Неподдерживаемый тип файла'), false);
   }
 };
 
+// Настройка Multer
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: {
-    fileSize: 1024 * 1024 * 15 // Ограничение размера файла до 15 МБ
-  }
+  limits: { fileSize: 15 * 1024 * 1024 } // 15 МБ
 });
 
+// Определение пути для сохранения обработанных изображений
 const getUploadPath = (req) => {
-  let uploadPath = 'public/uploads/';
-  if (req.path.includes('/house')) {
-    uploadPath += 'housesPictures';
-  } else if (req.path.includes('/apart')) {
-    uploadPath += 'apartsPictures';
-  } else if (req.path.includes('/room')) {
-    uploadPath += 'roomsPictures';
-  }
-  return uploadPath;
+  let baseUploadPath = 'public/uploads/';
+  if (req.path.includes('/house')) return path.join(baseUploadPath, 'housesPictures');
+  if (req.path.includes('/apart')) return path.join(baseUploadPath, 'apartsPictures');
+  if (req.path.includes('/room')) return path.join(baseUploadPath, 'roomsPictures');
+  return baseUploadPath; // Путь по умолчанию, если не совпадает ни с одним условием
 };
 
+// Middleware для обработки и сохранения изображений
 const processAndSaveImage = async (req, res, next) => {
-  if (!req.files || req.files.length === 0) {
-    return next(); // Пропускаем middleware, если файлы не загружены
-  }
+  if (!req.files || req.files.length === 0) return next(); // Пропускаем, если файлы не загружены
 
   try {
     const uploadPath = getUploadPath(req);
     await mkdir(uploadPath, { recursive: true });
 
-    await Promise.all(req.files.map(async (file) => {
-      const filename = file.fieldname + '-' + Date.now() + '.webp';
+    const processedFilesInfo = await Promise.all(req.files.map(async (file) => {
+      const filename = `${file.fieldname}-${Date.now()}.webp`;
       const outputPath = path.join(uploadPath, filename);
 
       await sharp(file.buffer)
@@ -56,13 +50,10 @@ const processAndSaveImage = async (req, res, next) => {
         .toFormat('webp', { quality: 80 })
         .toFile(outputPath);
 
-      // Опционально: добавление информации о файле в req для дальнейшего использования
-      if (!req.processedFiles) {
-        req.processedFiles = [];
-      }
-      req.processedFiles.push({ filename, path: outputPath });
+      return { filename, path: outputPath };
     }));
 
+    req.processedFiles = processedFilesInfo; // Сохраняем информацию об обработанных файлах в req
     next();
   } catch (error) {
     console.error('Error processing image:', error);
