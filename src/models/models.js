@@ -124,13 +124,16 @@ const Bookings = sequelize.define('booking', {
   checkInDate: { type: DataTypes.DATE, allowNull: true },
   checkOutDate: { type: DataTypes.DATE, allowNull: true },
   status: { type: DataTypes.STRING, allowNull: true, defaultValue: 'PENDING' },
-  itemId: { type: DataTypes.INTEGER, allowNull: true }, 
-  propertyName: { type: DataTypes.STRING, allowNull: true }, 
-  propertyType: { type: DataTypes.STRING, allowNull: true }, 
-  dailyRate: { type: DataTypes.DECIMAL, allowNull: true }, 
-  totalAmount: { type: DataTypes.DECIMAL, allowNull: true }, 
-  address: { type: DataTypes.STRING, allowNull: true }, 
+  itemId: { type: DataTypes.INTEGER, allowNull: true },
+  propertyName: { type: DataTypes.STRING, allowNull: true },
+  propertyType: { type: DataTypes.STRING, allowNull: true },
+  dailyRate: { type: DataTypes.DECIMAL, allowNull: true },
+  totalAmount: { type: DataTypes.DECIMAL, allowNull: true },
+  address: { type: DataTypes.STRING, allowNull: true },
   houseName: { type: DataTypes.STRING, allowNull: true },
+  totalDays: { type: DataTypes.INTEGER, allowNull: true },
+  guestsCount: { type: DataTypes.INTEGER, allowNull: true },
+  bookingDate: { type: DataTypes.DATE, allowNull: true, defaultValue: DataTypes.NOW },
 });
 
 
