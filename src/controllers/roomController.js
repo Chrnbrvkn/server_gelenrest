@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { Rooms } = require('../models/models')
+const { Rooms, RoomsPictures } = require('../models/models')
 class RoomController {
   async getAllRooms(req, res) {
     try {
@@ -79,17 +79,6 @@ class RoomController {
       }
       await room.update(req.body)
 
-      // await room.update({
-      //   name: req.body.name,
-      //   address: req.body.address,
-      //   price: req.body.price,
-      //   roomCount: req.body.roomCount,
-      //   bedroom: req.body.bedroom,
-      //   bathroom: req.body.bathroom,
-      //   meal: req.body.meal,
-      //   facilities: req.body.facilities,
-      //   houseId: req.body.houseId,
-      // }, { where: { id: roomId } })
       const updatedRoom = await Rooms.findByPk(roomId)
       return res.json(updatedRoom)
     } catch (e) {
@@ -112,6 +101,14 @@ class RoomController {
       if (!room) {
         return res.status(404).json({ error: 'Room not found' })
       }
+
+      const pictures = await RoomsPictures.findAll({ where: { roomId: roomId } });
+      await Promise.all(pictures.map(async (picture) => {
+        const filePath = path.join(__dirname, '..', '..', 'public/uploads/roomsPictures', picture.url.split('/').pop());
+        await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
+        await picture.destroy();
+      }));
+
       await room.destroy()
       return res.json({ message: 'Room deleted' })
     } catch (e) {

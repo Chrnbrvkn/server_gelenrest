@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { Aparts } = require('../models/models')
+const { Aparts, ApartsPictures } = require('../models/models')
 
 class ApartController {
 
@@ -69,6 +69,15 @@ class ApartController {
       if (!apart) {
         return res.status(404).json({ error: 'Apart not found' })
       }
+
+      // Находим и удаляем все связанные картинки
+      const pictures = await ApartsPictures.findAll({ where: { apartId: apartId } });
+      await Promise.all(pictures.map(async (picture) => {
+        const filePath = path.join(__dirname, '..', '..', 'public/uploads/apartsPictures', picture.url.split('/').pop());
+        await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
+        await picture.destroy();
+      }));
+
       await apart.destroy()
       return res.json({ message: 'Apart deleted' })
     } catch (e) {

@@ -1,4 +1,4 @@
-const { Houses } = require('../models/models')
+const { Houses, HousesPictures } = require('../models/models')
 
 class HouseController {
 
@@ -52,24 +52,6 @@ class HouseController {
         return res.status(404).json({ error: 'House not found' })
       }
       await house.update(req.body)
-      // await house.update({
-      //   name: req.body.name,
-      //   address: req.body.address,
-      //   description_1: req.body.description_1,
-      //   description_2: req.body.description_2,
-      //   description_3: req.body.description_3,
-      //   description_4: req.body.description_4,
-      //   roomCount: req.body.roomCount,
-      //   roomCategories: req.body.roomCategories,
-      //   meal: req.body.meal,
-      //   bookingConditions: req.body.bookingConditions,
-      //   checkoutTime: req.body.checkoutTime,
-      //   timeToSea: req.body.timeToSea,
-      //   timeToMarket: req.body.timeToMarket,
-      //   timeToCafe: req.body.timeToCafe,
-      //   timeToBusStop: req.body.timeToBusStop,
-      //   timeToBusCityCenter: req.body.timeToBusCityCenter,
-      // }, { where: { id: houseId } })
       const updatedHouse = await Houses.findByPk(houseId);
       return res.json(updatedHouse)
     } catch (e) {
@@ -87,6 +69,15 @@ class HouseController {
       if (!house) {
         return res.status(404).json({ error: 'House not found' })
       }
+
+      // Находим и удаляем все связанные картинки
+      const pictures = await HousesPictures.findAll({ where: { houseId: houseId } });
+      await Promise.all(pictures.map(async (picture) => {
+        const filePath = path.join(__dirname, '..', '..', 'public/uploads/housesPictures', picture.url.split('/').pop());
+        await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
+        await picture.destroy();
+      }));
+
       await house.destroy()
       return res.json({ message: 'House deleted' })
     } catch (e) {
