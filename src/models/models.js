@@ -123,18 +123,29 @@ const Bookings = sequelize.define('booking', {
   guestContact: { type: DataTypes.STRING, allowNull: true },
   checkInDate: { type: DataTypes.DATE, allowNull: true },
   checkOutDate: { type: DataTypes.DATE, allowNull: true },
-  status: { type: DataTypes.STRING, allowNull: true, defaultValue: 'PENDING' },
+  status: { type: DataTypes.STRING, allowNull: true, defaultValue: 'ОЖИДАНИЕ' },
   itemId: { type: DataTypes.INTEGER, allowNull: true },
   itemName: { type: DataTypes.STRING, allowNull: true },
   itemType: { type: DataTypes.STRING, allowNull: true },
   dailyRate: { type: DataTypes.DECIMAL, allowNull: true },
-  totalAmount: { type: DataTypes.DECIMAL, allowNull: true },
   address: { type: DataTypes.STRING, allowNull: true },
   houseName: { type: DataTypes.STRING, allowNull: true },
-  totalDays: { type: DataTypes.INTEGER, allowNull: true },
   guestsCount: { type: DataTypes.INTEGER, allowNull: true },
-  bookingDate: { type: DataTypes.DATE, allowNull: true, defaultValue: DataTypes.NOW },
+  petBreed: { type: DataTypes.STRING, allowNull: true },
+  petWeight: { type: DataTypes.DECIMAL, allowNull: true },
+  childAge: { type: DataTypes.INTEGER, allowNull: true },
+  smoker: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  disabledAccess: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  economyAccommodation: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  maxServiceAccommodation: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  discounts: { type: DataTypes.STRING, allowNull: true },
+  bonuses: { type: DataTypes.STRING, allowNull: true },
+  transfer: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  breakfastIncluded: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  toursIncluded: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  workInternet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
 });
+
 
 
 Aparts.hasMany(ApartsPictures, { foreignKey: 'apartId', as: 'apartPictures', onDelete: 'CASCADE' });
