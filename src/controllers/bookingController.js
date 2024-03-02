@@ -35,12 +35,12 @@ class BookingController {
     try {
       const booking = await Bookings.create({ ...req.body })
 
-      const bookingInfo = `Новая бронь ${req.body.id}:
+      const bookingInfo = `Новая бронь ${booking.id}:
       \nИмя: ${req.body.guestName}
       \nНомер: ${req.body.houseName !== '' ? req.body.itemName : req.body.houseName + ' ' + req.body.itemName}
       \nАдрес: ${req.body.address}
       \nТелефон: ${req.body.guestContact}
-      \nДата: ${req.body.checkInDate} - ${req.body.checkOutDate}`;
+      \nДата: ${req.body.checkInDate.slice(0, 10)} - ${req.body.checkOutDate.slice(0, 10)}`;
 
       await sendToTelegramBot(bookingInfo);
       return res.json(booking)
