@@ -34,7 +34,7 @@ class BookingController {
   async createBooking(req, res) {
     try {
       const booking = await Bookings.create({ ...req.body })
-      await sendToTelegramBot(JSON.stringify(booking))
+      await sendToTelegramBot(req.body)
       return res.json(booking)
     } catch (e) {
       console.error(e);
