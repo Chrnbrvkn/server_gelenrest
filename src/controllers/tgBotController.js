@@ -7,13 +7,18 @@ const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
 
 const sendToTelegramBot = async (message) => {
-  await axios.post(telegramUrl, {
-    chat_id: chatId,
-    text: message,
-  });
+  try {
+    await axios.post(telegramUrl, {
+      chat_id: chatId,
+      text: message,
+    });
+    console.log('Message sent to Telegram Bot successfully');
+  } catch (error) {
+    console.error('Error in sending message to Telegram Bot', error.message);
+  }
 };
 
-module.exports.sendModalCallback = async (req, res) => {
+const sendModalCallback = async (req, res) => {
   try {
     const { message } = req.body;
     await sendToTelegramBot(message);
@@ -24,3 +29,5 @@ module.exports.sendModalCallback = async (req, res) => {
   }
 };
 
+
+module.exports = { sendModalCallback, sendToTelegramBot };

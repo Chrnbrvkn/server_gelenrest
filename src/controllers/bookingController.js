@@ -34,7 +34,15 @@ class BookingController {
   async createBooking(req, res) {
     try {
       const booking = await Bookings.create({ ...req.body })
-      await sendToTelegramBot(req.body)
+
+      const bookingInfo = `Новая бронь ${req.body.id}:
+      \nИмя: ${req.body.guestName}
+      \nНомер: ${req.body.houseName !== '' ? req.body.itemName : req.body.houseName + ' ' + req.body.itemName}
+      \nАдрес: ${req.body.address}
+      \nТелефон: ${req.body.guestContact}
+      \nДата: ${req.body.checkInDate} - ${req.body.checkOutDate}`;
+
+      await sendToTelegramBot(bookingInfo);
       return res.json(booking)
     } catch (e) {
       console.error(e);
