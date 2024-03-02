@@ -1,5 +1,6 @@
 
 const { Bookings } = require('../models/models');
+const { sendModalCallback } = require('./tgBotController');
 
 class BookingController {
   async getBookings(req, res) {
@@ -33,6 +34,7 @@ class BookingController {
   async createBooking(req, res) {
     try {
       const booking = await Bookings.create({ ...req.body })
+      await sendModalCallback(JSON.stringify(booking))
       return res.json(booking)
     } catch (e) {
       console.error(e);
