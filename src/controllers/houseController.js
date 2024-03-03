@@ -1,4 +1,5 @@
 const { Houses, HousesPictures } = require('../models/models')
+const path = require('path');
 
 class HouseController {
 
