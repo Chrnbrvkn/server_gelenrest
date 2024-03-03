@@ -1,5 +1,6 @@
 const ApiError = require('../error/ApiError');
 const path = require('path');
+const fs = require('fs');
 const { Aparts, ApartsPictures } = require('../models/models')
 
 class ApartController {

@@ -1,6 +1,7 @@
 const ApiError = require('../error/ApiError');
 const { Rooms, RoomsPictures } = require('../models/models')
 const path = require('path');
+const fs = require('fs');
 
 
 
