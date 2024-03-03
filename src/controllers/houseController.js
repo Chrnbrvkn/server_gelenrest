@@ -11,6 +11,7 @@ class HouseController {
       return res.json(houses)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -27,6 +28,7 @@ class HouseController {
       return res.json(house)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -36,7 +38,7 @@ class HouseController {
       return res.json(house)
     } catch (e) {
       console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -56,6 +58,7 @@ class HouseController {
       return res.json(updatedHouse)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -82,6 +85,7 @@ class HouseController {
       return res.json({ message: 'House deleted' })
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 

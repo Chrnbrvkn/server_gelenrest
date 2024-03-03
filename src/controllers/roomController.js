@@ -7,6 +7,7 @@ class RoomController {
       return res.json(allRooms)
     } catch (e) {
       console.log(e);
+      return res.status(500).json({ error: e.message });
     }
   }
   async getRooms(req, res) {
@@ -26,7 +27,7 @@ class RoomController {
       return res.json(rooms)
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error ' })
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -57,7 +58,7 @@ class RoomController {
       return res.json(room)
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -83,6 +84,7 @@ class RoomController {
       return res.json(updatedRoom)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -103,16 +105,19 @@ class RoomController {
       }
 
       const pictures = await RoomsPictures.findAll({ where: { roomId: roomId } });
-      await Promise.all(pictures.map(async (picture) => {
-        const filePath = path.join(__dirname, '..', '..', 'public/uploads/roomsPictures', picture.url.split('/').pop());
-        await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
-        await picture.destroy();
-      }));
+      if(pictures){
+        await Promise.all(pictures.map(async (picture) => {
+          const filePath = path.join(__dirname, '..', '..', 'public/uploads/roomsPictures', picture.url.split('/').pop());
+          await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
+          await picture.destroy();
+        }));
+      }
 
       await room.destroy()
       return res.json({ message: 'Room deleted' })
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 

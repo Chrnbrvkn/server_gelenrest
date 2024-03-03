@@ -12,6 +12,7 @@ class ApartController {
       return res.json(aparts)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -28,6 +29,7 @@ class ApartController {
       return res.json(apart)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -37,7 +39,7 @@ class ApartController {
       return res.json(apart)
     } catch (e) {
       console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: 'Internal Server Error' })
     }
   }
 
@@ -56,6 +58,7 @@ class ApartController {
       return res.json(updatedApart)
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -82,6 +85,7 @@ class ApartController {
       return res.json({ message: 'Apart deleted' })
     } catch (e) {
       console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
