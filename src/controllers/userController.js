@@ -3,21 +3,14 @@ const { Users } = require('../models/models')
 
 class UserController {
 
-  async   createUser(req, res) {
-    try {
-      const { email, password, name, surname, role } = req.body
-      const user = await Users.create({ email, password, name, surname, role })
-      return res.json(user)
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' })
+  async getUsers(req, res) {
+    const users = await Users.findAll()
+    if (users.length === 0) {
+      return res.json([]);
     }
+    return res.json(users)
   }
 
-  async test(req, res) {
-
-    return res.json('HIII IM BORNING!!!')
-  }
   async getOneUser(req, res) {
     const { id } = req.params
     if (!id) {
@@ -30,12 +23,15 @@ class UserController {
     return res.json(user)
   }
 
-  async getUsers(req, res) {
-    const users = await Users.findAll()
-    if (users.length === 0) {
-      return res.json([]);
+  async createUser(req, res) {
+    try {
+      const { email, password, name, surname, role } = req.body
+      const user = await Users.create({ email, password, name, surname, role })
+      return res.json(user)
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ error: 'Internal Server Error' })
     }
-    return res.json(users)
   }
 
   async updateUser(req, res) {
@@ -67,12 +63,8 @@ class UserController {
     return res.json({ message: 'User deleted' })
   }
 
-  async registration(req, res) {
-
-  }
-
-  async login(req, res) {
-
+  async test(req, res) {
+    return res.json('HIII IM BORNING!!!')
   }
 
 }

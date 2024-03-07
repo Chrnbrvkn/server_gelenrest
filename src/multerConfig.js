@@ -48,7 +48,7 @@ const processAndSaveImage = async (req, res, next) => {
 
       await sharp(file.buffer)
         .resize(800)
-        .toFormat('webp', { quality: 80 })
+        .toFormat('webp', { quality: 95 })
         .toFile(outputPath);
 
       return { filename, path: relativeOutputPath };

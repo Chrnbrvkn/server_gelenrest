@@ -1,14 +1,27 @@
-const sequelize = require('../db')
-const { DataTypes } = require('sequelize')
+const sequelize = require('../db');
+const { DataTypes } = require('sequelize');
 
 const Users = sequelize.define('users', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  email: { type: DataTypes.STRING, unique: true, allowNull: true },
-  password: { type: DataTypes.STRING, allowNull: true },
-  name: { type: DataTypes.STRING, allowNull: true },
-  surname: { type: DataTypes.STRING, allowNull: true },
-  role: { type: DataTypes.STRING, defaultValue: 'USER' },
-})
+  email: { type: DataTypes.STRING, allowNull: false, unique: true, validate: { isEmail: true, notEmpty: true, } },
+  password: { type: DataTypes.STRING, allowNull: false },
+  name: { type: DataTypes.STRING },
+  surname: { type: DataTypes.STRING },
+}, { paranoid: true });
+
+const Roles = sequelize.define('roles', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  value: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const UserRoles = sequelize.define('userRoles', {
+  userId: { type: DataTypes.INTEGER, references: { model: Users, key: 'id', } },
+  roleId: { type: DataTypes.INTEGER, references: { model: Roles, key: 'id', } },
+});
+
+Users.belongsToMany(Roles, { through: UserRoles, foreignKey: 'userId' });
+Roles.belongsToMany(Users, { through: UserRoles, foreignKey: 'roleId' });
+
 
 const Houses = sequelize.define('house', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -29,6 +42,7 @@ const Houses = sequelize.define('house', {
   timeToBusStop: { type: DataTypes.STRING, allowNull: true },
   timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true },
   internet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  allHouseBooking: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   tv: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   pool: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   babyCot: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
@@ -45,7 +59,8 @@ const Houses = sequelize.define('house', {
   refrigerator: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   transferService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   laundryService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
-})
+}, { paranoid: true })
+
 const HousesPictures = sequelize.define('housePictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
@@ -58,13 +73,17 @@ const Rooms = sequelize.define('room', {
   address: { type: DataTypes.STRING, allowNull: true },
   price: { type: DataTypes.DOUBLE, allowNull: true },
   roomCount: { type: DataTypes.INTEGER, allowNull: true },
+  bedCount: { type: DataTypes.INTEGER, allowNull: true },
   bedroom: { type: DataTypes.STRING, allowNull: true },
-  bathroom: { type: DataTypes.STRING, allowNull: true },
-  meal: { type: DataTypes.STRING, allowNull: true },
+  bathroom: { type: DataTypes.ENUM, allowNull: true, values: ['в номере', 'на этаже'] },
+  bathType: { type: DataTypes.ENUM, allowNull: true, values: ['ванна', 'душ'] },
+  meal: { type: DataTypes.ENUM, allowNull: true, values: ['в номере', 'отдельно'] },
   facilities: { type: DataTypes.STRING, allowNull: true },
+  robotCleaner: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  yandexColumn: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   level: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 1 },
   houseId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'houses', key: 'id' } },
-});
+}, { paranoid: true });
 
 const RoomsPictures = sequelize.define('roomPictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -82,9 +101,12 @@ const Aparts = sequelize.define('apart', {
   description_2: { type: DataTypes.STRING, allowNull: true },
   description_3: { type: DataTypes.STRING, allowNull: true },
   description_4: { type: DataTypes.STRING, allowNull: true },
+  bedCount: { type: DataTypes.INTEGER, allowNull: true },
   roomCount: { type: DataTypes.INTEGER, allowNull: true },
   roomCategories: { type: DataTypes.STRING, allowNull: true },
-  meal: { type: DataTypes.STRING, allowNull: true },
+  meal: { type: DataTypes.ENUM, allowNull: true, values: ['в номере', 'отдельно'] },
+  bathroom: { type: DataTypes.ENUM, allowNull: true, values: ['в номере', 'на этаже'] },
+  bathType: { type: DataTypes.ENUM, allowNull: true, values: ['ванна', 'душ'] },
   bookingConditions: { type: DataTypes.STRING, allowNull: true },
   checkoutTime: { type: DataTypes.STRING, allowNull: true },
   timeToSea: { type: DataTypes.STRING, allowNull: true },
@@ -94,6 +116,8 @@ const Aparts = sequelize.define('apart', {
   timeToBusCityCenter: { type: DataTypes.STRING, allowNull: true },
   level: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 1 },
   internet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  robotCleaner: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+  yandexColumn: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   tv: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   pool: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   babyCot: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
@@ -110,7 +134,8 @@ const Aparts = sequelize.define('apart', {
   refrigerator: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   transferService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   laundryService: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
-})
+}, { paranoid: true })
+
 const ApartsPictures = sequelize.define('apartPictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
@@ -123,7 +148,7 @@ const Bookings = sequelize.define('booking', {
   guestContact: { type: DataTypes.STRING, allowNull: false },
   checkInDate: { type: DataTypes.DATE, allowNull: false },
   checkOutDate: { type: DataTypes.DATE, allowNull: false },
-  status: { type: DataTypes.STRING, allowNull: true, defaultValue: 'В ожидании' },
+  status: { type: DataTypes.ENUM, allowNull: true, values: ['В ожидании', 'Отменён', 'Подтверждён'] },
   itemId: { type: DataTypes.INTEGER, allowNull: false },
   itemName: { type: DataTypes.STRING, allowNull: false },
   itemType: { type: DataTypes.STRING, allowNull: false },
@@ -133,7 +158,7 @@ const Bookings = sequelize.define('booking', {
   houseName: { type: DataTypes.STRING, allowNull: false, defaultValue: '' },
   guestsCount: { type: DataTypes.INTEGER, allowNull: false },
   petBreed: { type: DataTypes.STRING, allowNull: true, defaultValue: false },
-  petWeight: { type: DataTypes.DECIMAL, allowNull: true , defaultValue: false},
+  petWeight: { type: DataTypes.DECIMAL, allowNull: true, defaultValue: false },
   childAge: { type: DataTypes.INTEGER, allowNull: true },
   smoker: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   disabledAccess: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
@@ -145,13 +170,12 @@ const Bookings = sequelize.define('booking', {
   breakfastIncluded: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   toursIncluded: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   workInternet: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
-});
+}, { paranoid: true });
 
 
 
 Aparts.hasMany(ApartsPictures, { foreignKey: 'apartId', as: 'apartPictures', onDelete: 'CASCADE' });
 ApartsPictures.belongsTo(Aparts, { foreignKey: 'apartId' });
-
 
 Houses.hasMany(HousesPictures, { foreignKey: 'houseId', as: 'housePictures', onDelete: 'CASCADE' });
 HousesPictures.belongsTo(Houses, { foreignKey: 'houseId' });
@@ -165,4 +189,4 @@ Rooms.belongsTo(Houses, { foreignKey: 'houseId' });
 
 
 
-module.exports = { Users, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures, Bookings };
+module.exports = { Users, Roles, UserRoles, Houses, Aparts, Rooms, HousesPictures, RoomsPictures, ApartsPictures, Bookings };

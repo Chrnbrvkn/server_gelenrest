@@ -110,13 +110,13 @@ class RoomController {
       }
 
       const pictures = await RoomsPictures.findAll({ where: { roomId: roomId } });
-      if(pictures){
-        await Promise.all(pictures.map(async (picture) => {
-          const filePath = path.join(__dirname, '..', '..', 'public/uploads/roomsPictures', picture.url.split('/').pop());
-          await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
-          await picture.destroy();
-        }));
-      }
+
+      await Promise.all(pictures.map(async (picture) => {
+        const filePath = path.join(__dirname, '..', '..', 'public/uploads/roomsPictures', picture.url.split('/').pop());
+        await fs.promises.unlink(filePath).catch(e => console.error("Error deleting file:", e));
+        await picture.destroy();
+      }));
+
 
       await room.destroy()
       return res.json({ message: 'Room deleted' })

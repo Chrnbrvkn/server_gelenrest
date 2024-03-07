@@ -2,6 +2,7 @@ const Router = require('express')
 const router = new Router()
 const { upload, processAndSaveImage } = require('../multerConfig');
 
+const authController = require('../controllers/authController.js')
 const userController = require('../controllers/userController')
 const houseController = require('../controllers/houseController')
 const apartController = require('../controllers/apartController')
@@ -21,6 +22,10 @@ router.get('/users/:userId', userController.getOneUser)
 router.post('/users', upload.none(), userController.createUser)
 router.patch('/users/:userId', upload.none(), userController.updateUser)
 router.delete('/users/:userId', userController.deleteUser)
+// auth
+router.post('/registration', authController.registration)
+router.post('/login', authController.login)
+
 // houses
 router.get('/houses', houseController.getHouses)
 router.get('/houses/:houseId', houseController.getOneHouse)
