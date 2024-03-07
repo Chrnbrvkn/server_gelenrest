@@ -1,6 +1,4 @@
 const { generateToken } = require('../jwtUtils');
-const JWT_EXPIRATION = process.env.JWT_EXPIRATION
-const JWT_SECRET = process.env.JWT_SECRET
 const bcrypt = require('bcrypt')
 const { Roles, Users, UserRoles } = require('../models/models');
 

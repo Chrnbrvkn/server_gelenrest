@@ -25,7 +25,7 @@ router.delete('/users/:userId', userController.deleteUser)
 // auth
 router.post('/registration', authController.registration)
 router.post('/login', authController.login)
-// router.post('/createRoles', authController.createRole)
+router.post('/createRoles', authController.createRole)
 router.get('/getRoles', authController.getRoles)
 router.get('/getUserRoles', authController.getUserRoles)
 
