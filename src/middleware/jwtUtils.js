@@ -6,9 +6,4 @@ const generateToken = (user) => {
   return jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
 };
 
-// Функция верификации токена, если понадобится
-const verifyToken = (token) => {
-  return jwt.verify(token, JWT_SECRET);
-};
-
-module.exports = { generateToken, verifyToken };
+module.exports = { generateToken };
