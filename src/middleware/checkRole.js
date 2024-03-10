@@ -9,6 +9,7 @@ const roleAccessLevels = {
 };
 
 const checkRole = (requiredRoles) => {
+  console.log('CHECK ROLES ' + requiredRoles );
   return async (req, res, next) => {
     const userId = req.user.userId;
     try {
@@ -16,14 +17,17 @@ const checkRole = (requiredRoles) => {
         where: { id: userId },
         include: [{ model: Roles }]
       });
-
+      
+      console.log('CHECK ROLES userWithRoles' + userWithRoles );
       if (!userWithRoles) {
         return res.status(404).json({ message: `Пользователь не найден. ${userWithRoles}` });
       }
-
+      
       const userMaxAccessLevel = Math.max(...userWithRoles.Roles.map(role => roleAccessLevels[role.value] || 0));
       const requiredMaxAccessLevel = Math.max(...requiredRoles.map(role => roleAccessLevels[role] || 0));
-
+      
+      console.log('CHECK ROLES userMaxAccessLevel' + userMaxAccessLevel );
+      console.log('CHECK ROLES requiredMaxAccessLevel' + requiredMaxAccessLevel );
       if (userMaxAccessLevel >= requiredMaxAccessLevel) {
         next();
       } else {

@@ -4,9 +4,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const verifyToken = (req, res, next) => {
   let token = req.headers['Authorization'];
 
+  console.log('VERIFY TOKEN: ' + token);
   if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
   }
+
+  console.log('VERIFY TOKEN: ' + token);
 
   if (!token) {
     return res.status(403).json({
@@ -21,6 +24,7 @@ const verifyToken = (req, res, next) => {
       });
     }
 
+    console.log('VERIFY TOKEN decoded: ' + decoded);
     // Токен действителен, сохраняем декодированные данные в запросе для использования в следующих middleware
     req.user = decoded;
     next();

@@ -25,8 +25,8 @@ class UserController {
 
   async createUser(req, res) {
     try {
-      const { email, password, name, surname, role } = req.body
-      const user = await Users.create({ email, password, name, surname, role })
+      const { email, password, name, surname } = req.body
+      const user = await Users.create({ email, password, name, surname })
       return res.json(user)
     } catch (e) {
       console.log(e);
