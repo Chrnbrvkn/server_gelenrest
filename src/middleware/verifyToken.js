@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const verifyToken = (req, res, next) => {
-  let token = req.headers['authorization'];
+  let token = req.headers['Authorization'];
 
   if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
