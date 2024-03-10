@@ -1,25 +1,40 @@
-const { UserRoles, Roles } = require("../models/models");
+const { UserRoles, Roles, Users } = require("../models/models");
 
-const checkRole = (roles) => {
+
+const roleAccessLevels = {
+  'user': 1,
+  'admin': 2,
+  'main_admin': 3,
+  'developer': 4
+};
+
+const checkRole = (requiredRoles) => {
   return async (req, res, next) => {
     const userId = req.user.userId;
     try {
-      const userRoles = await UserRoles.findAll({
-        where: { userId },
+      const userWithRoles = await Users.findOne({
+        where: { id: userId },
         include: [{ model: Roles }]
       });
 
-      
-      const userRolesValues = userRoles.map(ur => ur.Role.value);
-      const hasRole = roles.some(role => userRolesValues.includes(role));
-      if (!hasRole) {
+      if (!userWithRoles) {
+        return res.status(404).json({ message: 'Пользователь не найден.' });
+      }
+
+      const userMaxAccessLevel = Math.max(...userWithRoles.Roles.map(role => roleAccessLevels[role.value] || 0));
+      const requiredMaxAccessLevel = Math.max(...requiredRoles.map(role => roleAccessLevels[role] || 0));
+
+      if (userMaxAccessLevel >= requiredMaxAccessLevel) {
+        next();
+      } else {
         return res.status(403).json({ message: 'Недостаточно прав для доступа к этому ресурсу.' });
       }
-      next();
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: 'Произошла ошибка при проверке ролей пользователя.' });
     }
   };
 };
+
 
 module.exports = { checkRole }
