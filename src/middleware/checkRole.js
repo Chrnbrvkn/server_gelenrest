@@ -8,9 +8,10 @@ const checkRole = (roles) => {
         where: { userId },
         include: [{ model: Roles }]
       });
+
       
       const userRolesValues = userRoles.map(ur => ur.Role.value);
-      const hasRole = roles.every(role => userRolesValues.includes(role));
+      const hasRole = roles.some(role => userRolesValues.includes(role));
       if (!hasRole) {
         return res.status(403).json({ message: 'Недостаточно прав для доступа к этому ресурсу.' });
       }
