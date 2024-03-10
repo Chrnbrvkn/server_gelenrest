@@ -18,7 +18,7 @@ const checkRole = (requiredRoles) => {
       });
 
       if (!userWithRoles) {
-        return res.status(404).json({ message: 'Пользователь не найден.' });
+        return res.status(404).json({ message: `Пользователь не найден. ${userWithRoles}` });
       }
 
       const userMaxAccessLevel = Math.max(...userWithRoles.Roles.map(role => roleAccessLevels[role.value] || 0));
@@ -31,7 +31,7 @@ const checkRole = (requiredRoles) => {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Произошла ошибка при проверке ролей пользователя.' });
+      res.status(500).json({ message: 'Произошла ошибка при проверке ролей пользователя.  userWithRoles ${userWithRoles} requiredMaxAccessLevel ${requiredMaxAccessLevel} userMaxAccessLevel ${userMaxAccessLevel}' });
     }
   };
 };
