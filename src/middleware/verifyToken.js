@@ -13,14 +13,14 @@ const verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(403).json({
-      message: 'Forbidden!',
+      message: `Forbidden! \n${token}`,
     });
   }
 
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({
-        message: 'Не удалось аутентифицировать токен.',
+        message: `Не удалось аутентифицировать токен. \n${err}`,
       });
     }
 

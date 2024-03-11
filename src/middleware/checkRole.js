@@ -1,15 +1,18 @@
 const { UserRoles, Roles, Users } = require("../models/models");
 
 
-const roleAccessLevels = {
-  'user': 1,
-  'admin': 2,
-  'main_admin': 3,
-  'developer': 4
-};
+
 
 const checkRole = (requiredRoles) => {
-  console.log('CHECK ROLES ' + requiredRoles );
+  
+  const roleAccessLevels = {
+    'user': 1,
+    'admin': 2,
+    'main_admin': 3,
+    'developer': 4
+  };
+
+  console.log('CHECK ROLES ' + JSON.stringify(requiredRoles) );
   return async (req, res, next) => {
     const userId = req.user.userId;
     try {
