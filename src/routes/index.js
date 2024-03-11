@@ -6,6 +6,8 @@ const MAIN_ACCESS = process.env.MAIN_ACCESS.split(',');
 const ADMIN_ACCESS = process.env.ADMIN_ACCESS.split(',');
 const USER_ACCESS = process.env.USER_ACCESS.split(',');
 
+console.log(`ADMIN_ACCESS: ${ADMIN_ACCESS}`);
+
 const { upload, processAndSaveImage } = require('../middleware/multerConfig.js');
 const { verifyToken } = require('../middleware/verifyToken.js');
 const { checkRole } = require('../middleware/checkRole.js');
