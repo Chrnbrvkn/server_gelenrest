@@ -22,7 +22,7 @@ const checkRole = (requiredRoles) => {
       });
 
       console.log(`CHECK ROLES userWithRoles: ${JSON.stringify(userWithRoles, null, 2)}`);
-      if (!userWithRoles) {
+      if (!userWithRoles || !Array.isArray(userWithRoles.Roles)) {
         return res.status(404).json({ message: `Пользователь не найден. ${userWithRoles}` });
       }
 
