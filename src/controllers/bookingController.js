@@ -3,6 +3,18 @@ const { Bookings } = require('../models/models');
 const { sendToTelegramBot } = require('./tgBotController');
 
 class BookingController {
+  async getReservedDates(req, res) {
+    try {
+      const bookings = await Bookings.findAll()
+      if (bookings.length === 0) {
+        return res.json([])
+      }
+      return res.json(bookings)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+  
   async getBookings(req, res) {
     try {
       const bookings = await Bookings.findAll()
