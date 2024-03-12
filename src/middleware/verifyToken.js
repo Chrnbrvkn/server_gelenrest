@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(403).json({
-      message: `Forbidden! \n${token}`,
+      message: `Forbidden!`,
     });
   }
 
@@ -25,6 +25,7 @@ const verifyToken = (req, res, next) => {
     }
 
     console.log('VERIFY TOKEN decoded: ' + decoded);
+    console.log(JSON.stringify(decoded));
     // Токен действителен, сохраняем декодированные данные в запросе для использования в следующих middleware
     req.user = decoded;
     next();

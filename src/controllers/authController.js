@@ -7,6 +7,7 @@ class AuthController {
   async createRole(req, res) {
     try {
       const { value } = req.body;
+      
       const role = await Roles.create({ value });
       return res.json(role);
     } catch (e) {

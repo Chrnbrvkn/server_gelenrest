@@ -30,10 +30,10 @@ const { sendModalCallback } = require('../controllers/tgBotController');
 // users
 router.get('/test', userController.test)
 router.get('/users', verifyToken, checkRole(ADMIN_ACCESS), userController.getUsers)
-router.get('/users/:userId', verifyToken, checkRole(ADMIN_ACCESS), userController.getOneUser)
-router.post('/users', verifyToken, upload.none(), userController.createUser)
-router.patch('/users/:userId', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), userController.updateUser)
-router.delete('/users/:userId', verifyToken, checkRole(ADMIN_ACCESS), userController.deleteUser)
+router.get('/users/:userId', userController.getOneUser)
+router.post('/users', upload.none(), userController.createUser)
+router.patch('/users/:userId', upload.none(), userController.updateUser)
+router.delete('/users/:userId', userController.deleteUser)
 // auth
 router.post('/registration', authController.registration)
 router.post('/login', authController.login)
@@ -42,7 +42,7 @@ router.get('/getRoles', authController.getRoles)
 router.get('/getUserRoles', authController.getUserRoles)
 
 // houses
-router.get('/houses', houseController.getHouses)
+router.get('/houses',verifyToken, checkRole(DEV_ACCESS), houseController.getHouses)
 router.get('/houses/:houseId', houseController.getOneHouse)
 router.post('/houses', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), houseController.createHouse)
 router.patch('/houses/:houseId', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), houseController.updateHouse)

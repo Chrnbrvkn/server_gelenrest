@@ -1,4 +1,4 @@
-const { UserRoles, Roles, Users } = require("../models/models");
+const { Roles, Users } = require("../models/models");
 
 
 
@@ -20,13 +20,14 @@ const checkRole = (requiredRoles) => {
         where: { id: userId },
         include: [{ model: Roles }]
       });
-
+      
       console.log(`CHECK ROLES userWithRoles: ${JSON.stringify(userWithRoles, null, 2)}`);
-      if (!userWithRoles || !Array.isArray(userWithRoles.Roles)) {
-        return res.status(404).json({ message: `Пользователь не найден. ${userWithRoles}` });
+      if (!userWithRoles || !Array.isArray(userWithRoles.roles)) {
+        return res.status(404)
+        .json({ message: `Пользователь не найден. ${JSON.stringify(userWithRoles)}` });
       }
 
-      const userMaxAccessLevel = Math.max(...userWithRoles.Roles.map(role => roleAccessLevels[role.value] || 0));
+      const userMaxAccessLevel = Math.max(...userWithRoles.roles.map(role => roleAccessLevels[role.value] || 0));
       const requiredMaxAccessLevel = Math.max(...requiredRoles.map(role => roleAccessLevels[role] || 0));
 
       console.log('CHECK ROLES userMaxAccessLevel' + userMaxAccessLevel);
