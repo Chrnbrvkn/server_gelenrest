@@ -9,7 +9,7 @@ class HouseController {
     try {
       const houses = await Houses.findAll()
       if (houses.length === 0) {
-        return res.json('No data');
+        return res.json([]);
       }
       return res.json(houses)
     } catch (e) {
