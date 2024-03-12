@@ -5,16 +5,26 @@ const { sendToTelegramBot } = require('./tgBotController');
 class BookingController {
   async getReservedDates(req, res) {
     try {
-      const bookings = await Bookings.findAll()
-      if (bookings.length === 0) {
-        return res.json([])
+      const reservedDates = await Bookings.findAll({
+        where: {
+          status: 'Подтверждён'
+        },
+        attributes: ['itemId', 'checkInDate', 'checkOutDate']
+      });
+      if (reservedDates.length === 0) {
+        return res.json([]);
       }
-      return res.json(bookings)
+      return res.json(reservedDates.map(rd => ({
+        itemId: rd.itemId,
+        checkInDate: rd.checkInDate,
+        checkOutDate: rd.checkOutDate
+      })));
     } catch (e) {
-      console.error(e)
+      console.error(e);
+      return res.status(500).json({ message: "Произошла ошибка при получении зарезервированных дат" });
     }
   }
-  
+
   async getBookings(req, res) {
     try {
       const bookings = await Bookings.findAll()

@@ -30,16 +30,15 @@ const { sendModalCallback } = require('../controllers/tgBotController');
 // users
 router.get('/test', userController.test)
 router.get('/users', verifyToken, checkRole(ADMIN_ACCESS), userController.getUsers)
-router.get('/users/:userId',verifyToken, checkRole(ADMIN_ACCESS), userController.getOneUser)
-// router.post('/users', upload.none(), userController.createUser)
-// router.patch('/users/:userId',verifyToken, checkRole(ADMIN_ACCESS),  upload.none(), userController.updateUser)
-// router.delete('/users/:userId',verifyToken, checkRole(ADMIN_ACCESS),  userController.deleteUser)
+router.get('/users/:userId', verifyToken, checkRole(ADMIN_ACCESS), userController.getOneUser)
+router.post('/users', verifyToken, checkRole(DEV_ACCESS), upload.none(), userController.createUser)
+router.patch('/users/:userId', verifyToken, checkRole(DEV_ACCESS), upload.none(), userController.updateUser)
+router.delete('/users/:userId', verifyToken, checkRole(DEV_ACCESS), userController.deleteUser)
 
 // auth
-
 // router.post('/registration', authController.registration)
-router.post('/login', authController.login)
 // router.post('/createRoles', authController.createRole)
+router.post('/login', authController.login)
 router.get('/getRoles', authController.getRoles)
 router.get('/getUserRoles', verifyToken, checkRole(ADMIN_ACCESS), authController.getUserRoles)
 
@@ -84,8 +83,8 @@ router.delete('/room/:roomId/pictures/:imageId', verifyToken, checkRole(ADMIN_AC
 // booking
 router.get('/reservedDates', bookingController.getReservedDates)
 router.get('/booking', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getBookings)
-router.get('/booking/:bookingId',verifyToken, checkRole(ADMIN_ACCESS),  bookingController.getOneBooking)
-router.post('/booking',verifyToken, checkRole(ADMIN_ACCESS),  bookingController.createBooking)
+router.get('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getOneBooking)
+router.post('/booking', verifyToken, checkRole(ADMIN_ACCESS), bookingController.createBooking)
 router.patch('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.updateBooking)
 router.delete('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.deleteBooking)
 // tgBot
