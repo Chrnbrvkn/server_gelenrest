@@ -41,6 +41,8 @@ router.delete('/users/:userId', verifyToken, checkRole(DEV_ACCESS), userControll
 router.post('/login', authController.login)
 router.get('/getRoles', authController.getRoles)
 router.get('/getUserRoles', verifyToken, checkRole(ADMIN_ACCESS), authController.getUserRoles)
+// проверка валидности токена
+router.get('/validate-token', verifyToken, authController.validateToken);
 
 // houses
 router.get('/houses', houseController.getHouses)

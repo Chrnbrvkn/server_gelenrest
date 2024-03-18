@@ -90,6 +90,17 @@ class AuthController {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+  // В вашем AuthController
+
+async validateToken(req, res) {
+  
+  return res.status(200).json({
+    message: 'Токен действителен',
+    user: req.user,
+  });
+}
+
 }
 
 module.exports = new AuthController()
