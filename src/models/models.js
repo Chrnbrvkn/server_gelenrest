@@ -154,6 +154,7 @@ const Bookings = sequelize.define('booking', {
   itemId: { type: DataTypes.INTEGER, allowNull: false },
   address: { type: DataTypes.STRING, allowNull: false },
   itemType: { type: DataTypes.STRING, allowNull: false },
+  houseId: { type: DataTypes.STRING, allowNull: false },
   houseName: { type: DataTypes.STRING, allowNull: false, defaultValue: '' },
   itemName: { type: DataTypes.STRING, allowNull: false },
   dailyRate: { type: DataTypes.DECIMAL, allowNull: false },
