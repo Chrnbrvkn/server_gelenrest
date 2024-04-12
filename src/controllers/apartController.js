@@ -41,7 +41,7 @@ class ApartController {
       return res.json(apart)
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: e.message });
     }
   }
 

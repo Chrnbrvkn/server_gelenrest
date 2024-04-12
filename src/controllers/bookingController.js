@@ -6,7 +6,7 @@ class BookingController {
   async getReservedDates(req, res) {
     try {
       const bookings = await Bookings.findAll({
-        attributes: ['itemId', 'checkInDate', 'checkOutDate'],
+        attributes: ['houseId', 'itemId', 'checkInDate', 'checkOutDate'],
         where: {
           status: 'Подтверждён'
         }
@@ -17,7 +17,7 @@ class BookingController {
       return res.status(500).json({ error: e.message });
     }
   }
-  
+
 
   async getBookings(req, res) {
     try {
