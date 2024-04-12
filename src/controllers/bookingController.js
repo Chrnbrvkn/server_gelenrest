@@ -57,7 +57,7 @@ class BookingController {
 
       const bookingInfo = `Новая бронь ${booking.id}:
       \nИмя: ${req.body.guestName}
-      \nНомер: ${req.body.houseName !== '' ? req.body.itemName : req.body.houseName + ' ' + req.body.itemName}
+      \nНомер: ${req.body.houseName === '' ? req.body.itemName : req.body.houseName + ' ' + req.body.itemName}
       \nАдрес: ${req.body.address}
       \nТелефон: ${req.body.guestContact}
       \nДата: ${req.body.checkInDate.slice(0, 10)} - ${req.body.checkOutDate.slice(0, 10)}`;

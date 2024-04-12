@@ -86,7 +86,7 @@ router.delete('/room/:roomId/pictures/:imageId', verifyToken, checkRole(ADMIN_AC
 router.get('/reservedDates', bookingController.getReservedDates)
 router.get('/booking', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getBookings)
 router.get('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getOneBooking)
-router.post('/booking', verifyToken, checkRole(ADMIN_ACCESS), bookingController.createBooking)
+router.post('/booking', bookingController.createBooking)
 router.patch('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.updateBooking)
 router.delete('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.deleteBooking)
 // tgBot
