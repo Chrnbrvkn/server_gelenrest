@@ -5,8 +5,14 @@ const path = require('path');
 class HousesPicturesController {
 
   async getAllPictures(req, res) {
-    const allPictures = await HousesPictures.findAll()
-    return res.json(allPictures)
+    try {
+      const allPictures = await HousesPictures.findAll()
+      return res.json(allPictures)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ error: e.message });
+
+    }
   }
 
   async getPictures(req, res) {
@@ -22,7 +28,7 @@ class HousesPicturesController {
       return res.json(pictures)
     } catch (e) {
       console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -41,7 +47,7 @@ class HousesPicturesController {
       return res.json(picture);
     } catch (e) {
       console.log(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -66,9 +72,9 @@ class HousesPicturesController {
       }));
 
       res.json(pictureUrls);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -90,7 +96,7 @@ class HousesPicturesController {
       res.json({ message: 'Picture deleted successfully' });
     } catch (e) {
       console.error("Error deleting file:", e);
-      res.status(500).json({ error: 'Failed to delete the file' });
+      return res.status(500).json({ error: e.message });
     }
   }
 

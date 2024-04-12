@@ -6,6 +6,7 @@ const fs = require('fs');
 
 
 class RoomController {
+
   async getAllRooms(req, res) {
     try {
       const allRooms = await Rooms.findAll()
@@ -37,20 +38,26 @@ class RoomController {
   }
 
   async getOneRoom(req, res) {
-    const { houseId, roomId } = req.params
-    if (!roomId) {
-      return res.status(400).json({ error: 'ID not specified' })
-    }
-    const room = await Rooms.findOne({
-      where: {
-        id: roomId,
-        houseId: houseId
+    try {
+      const { houseId, roomId } = req.params
+      if (!roomId) {
+        return res.status(400).json({ error: 'ID not specified' })
       }
-    })
-    if (!room) {
-      return res.status(404).json({ error: 'Room not found' })
+      const room = await Rooms.findOne({
+        where: {
+          id: roomId,
+          houseId: houseId
+        }
+      })
+      if (!room) {
+        return res.status(404).json({ error: 'Room not found' })
+      }
+      return res.json(room)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ error: e.message });
+
     }
-    return res.json(room)
   }
 
   async createRoom(req, res) {

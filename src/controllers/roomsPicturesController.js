@@ -5,8 +5,14 @@ const path = require('path');
 class RoomsPicturesController {
 
   async getAllPictures(req, res) {
-    const allPictures = await RoomsPictures.findAll()
-    return res.json(allPictures)
+    try {
+      const allPictures = await RoomsPictures.findAll()
+      return res.json(allPictures)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ error: e.message });
+
+    }
   }
 
   async getPictures(req, res) {
@@ -22,7 +28,7 @@ class RoomsPicturesController {
       return res.json(pictures);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -41,7 +47,7 @@ class RoomsPicturesController {
       return res.json(picture);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -55,16 +61,17 @@ class RoomsPicturesController {
         return res.status(400).json({ error: 'No processed files found' });
       }
       const pictureUrls = await Promise.all(req.processedFiles.map(async ({ filename, path }) => {
-        const picture = await RoomsPictures.create({ 
-          url: path, 
-          roomId: roomId });
+        const picture = await RoomsPictures.create({
+          url: path,
+          roomId: roomId
+        });
         return picture.url
       }))
 
       return res.json(pictureUrls);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -86,7 +93,7 @@ class RoomsPicturesController {
       res.json({ message: 'Picture deleted successfully' });
     } catch (e) {
       console.error("Error deleting file:", e);
-      res.status(500).json({ error: 'Failed to delete the file' });
+      return res.status(500).json({ error: e.message });
     }
   }
 

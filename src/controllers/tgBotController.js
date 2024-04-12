@@ -13,8 +13,10 @@ const sendToTelegramBot = async (message) => {
       text: message,
     });
     console.log('Message sent to Telegram Bot successfully');
-  } catch (error) {
-    console.error('Error in sending message to Telegram Bot', error.message);
+  } catch (e) {
+    console.error('Error in sending message to Telegram Bot', e.message);
+    return res.status(500).json({ error: e.message });
+
   }
 };
 
@@ -22,10 +24,10 @@ const sendModalCallback = async (req, res) => {
   try {
     const { message } = req.body;
     await sendToTelegramBot(message);
-    res.status(200).send('Message sent to Telegram Bot successfully');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error in sending message to Telegram Bot');
+    return res.status(200).send('Message sent to Telegram Bot successfully');
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: e.message });
   }
 };
 

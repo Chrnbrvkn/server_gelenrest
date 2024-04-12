@@ -14,7 +14,7 @@ class BookingController {
       return res.json(bookings);
     } catch (e) {
       console.error(e);
-      return res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({ error: e.message });
     }
   }
   
@@ -28,6 +28,8 @@ class BookingController {
       return res.json(bookings)
     } catch (e) {
       console.error(e)
+      return res.status(500).json({ error: e.message });
+
     }
   }
 
@@ -44,6 +46,8 @@ class BookingController {
       return res.json(booking)
     } catch (e) {
       console.error(e)
+      return res.status(500).json({ error: e.message });
+
     }
   }
 
@@ -62,7 +66,7 @@ class BookingController {
       return res.json(booking)
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: e.message });
 
     }
   }
@@ -82,6 +86,7 @@ class BookingController {
       return res.json(updatedBooking)
     } catch (e) {
       console.error(e)
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -99,6 +104,8 @@ class BookingController {
       return res.json({ message: 'Booking deleted' })
     } catch (e) {
       console.error(e)
+      return res.status(500).json({ error: e.message });
+
     }
   }
 

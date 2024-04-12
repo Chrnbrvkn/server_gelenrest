@@ -12,7 +12,7 @@ class AuthController {
       return res.json(role);
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -25,7 +25,7 @@ class AuthController {
       return res.json([])
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
   async getRoles(req, res) {
@@ -37,7 +37,7 @@ class AuthController {
       return res.json([])
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -66,7 +66,7 @@ class AuthController {
       return res.status(201).json({ message: 'User registered successfully', token });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: e })
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -87,7 +87,7 @@ class AuthController {
       return res.json({ message: 'Login successful', token });
     } catch (e) {
       console.log(e);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 

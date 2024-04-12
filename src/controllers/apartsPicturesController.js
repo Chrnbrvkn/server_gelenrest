@@ -5,8 +5,13 @@ const path = require('path');
 class ApartsPicturesController {
 
   async getAllPictures(req, res) {
-    const allPictures = await ApartsPictures.findAll()
-    return res.json(allPictures)
+    try {
+      const allPictures = await ApartsPictures.findAll()
+      return res.json(allPictures)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ error: e.message });
+    }
   }
 
   async getPictures(req, res) {
@@ -22,7 +27,7 @@ class ApartsPicturesController {
       return res.json(pictures);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -41,7 +46,7 @@ class ApartsPicturesController {
       return res.json(picture);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -68,7 +73,7 @@ class ApartsPicturesController {
       return res.json(pictureUrls);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: e.message });
     }
   }
 
@@ -91,7 +96,7 @@ class ApartsPicturesController {
     } catch (e) {
       console.error(e);
       console.error("Error deleting file:", e);
-      res.status(500).json({ error: 'Failed to delete the file' });
+      return res.status(500).json({ error: e.message });
     }
   }
 }

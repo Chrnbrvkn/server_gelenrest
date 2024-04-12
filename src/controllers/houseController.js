@@ -48,7 +48,7 @@ class HouseController {
   async updateHouse(req, res) {
     try {
       const { houseId } = req.params
-      console.log(`UPDATE HOUSE REQUEST: ${JSON.stringify(req.body)}`);
+
       if (!houseId) {
         return res.status(400).json({ error: 'houseId not specified' })
       }
