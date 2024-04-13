@@ -151,13 +151,17 @@ const Bookings = sequelize.define('booking', {
   guestContact: { type: DataTypes.STRING, allowNull: false },
   guestsCount: { type: DataTypes.INTEGER, allowNull: false },
 
+  roomId: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null },
+  apartId: { type: DataTypes.INTEGER, allowNull: true, defaultValue: null },
+  
   itemId: { type: DataTypes.INTEGER, allowNull: false },
-  address: { type: DataTypes.STRING, allowNull: false },
   itemType: { type: DataTypes.STRING, allowNull: false },
+
+  address: { type: DataTypes.STRING, allowNull: false },
   houseId: { type: DataTypes.INTEGER, allowNull: true },
   houseName: { type: DataTypes.STRING, allowNull: false, defaultValue: '' },
   itemName: { type: DataTypes.STRING, allowNull: false },
-  dailyRate: { type: DataTypes.DECIMAL, allowNull: false },
+  dailyRate: { type: DataTypes.DECIMAL, allowNull: false }, 
   totalCost: { type: DataTypes.DECIMAL, allowNull: false, defaultValue: 0 },
   totaldays: { type: DataTypes.INTEGER , allowNull: false, defaultValue: 0 },
 
