@@ -6,7 +6,7 @@ class BookingController {
   async getReservedDates(req, res) {
     try {
       const bookings = await Bookings.findAll({
-        attributes: ['houseId', 'itemId', 'checkInDate', 'checkOutDate'],
+        attributes: ['houseId', 'roomId', 'apartId', 'checkInDate', 'checkOutDate'],
         where: {
           status: 'Подтверждён'
         }
