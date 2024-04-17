@@ -81,6 +81,8 @@ class BookingController {
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' })
       }
+      console.log("REQ BODY");
+      console.log(JSON.stringify(req.body));
       await booking.update(req.body)
       const updatedBooking = await Bookings.findByPk(bookingId)
       return res.json(updatedBooking)
