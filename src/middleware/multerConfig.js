@@ -4,6 +4,7 @@ const fs = require('fs');
 const util = require('util');
 const mkdir = util.promisify(fs.mkdir);
 const path = require('path');
+const {v4: uuidv4 } = require('uuid');
 
 // Хранение файлов в памяти для последующей обработки с помощью sharp
 const storage = multer.memoryStorage();
@@ -42,7 +43,7 @@ const processAndSaveImage = async (req, res, next) => {
     await mkdir(uploadPath, { recursive: true });
 
     const processedFilesInfo = await Promise.all(req.files.map(async (file) => {
-      const filename = `${file.fieldname}-${Date.now()}.webp`;
+      const filename = `${file.fieldname}-${uuidv4()}.webp`;
       const relativeOutputPath = `/public/uploads/${req.path.includes('/house') ? 'housesPictures' : req.path.includes('/apart') ? 'apartsPictures' : 'roomsPictures'}/${filename}`;
       const outputPath = path.join(uploadPath, filename);
 
