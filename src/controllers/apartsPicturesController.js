@@ -106,7 +106,7 @@ class ApartsPicturesController {
       const { apartId } = req.params;
       const { images } = req.body;
 
-      const apartIdNum = parseInt(houseId, 10);
+      const apartIdNum = parseInt(apartId, 10);
       if (isNaN(apartIdNum)) {
         return res.status(400).json({ error: `Invalid houseId: ${apartIdNum}` });
       }

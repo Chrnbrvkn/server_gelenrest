@@ -118,7 +118,7 @@ class HousesPicturesController {
         })
       ))
 
-      return res.json({ message: 'Order updated successfully' });
+      return res.json({ message: `${images} | ${houseId}` });
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
