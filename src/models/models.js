@@ -64,7 +64,8 @@ const Houses = sequelize.define('house', {
 const HousesPictures = sequelize.define('housePictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
-  houseId: { type: DataTypes.INTEGER, allowNull: false }
+  houseId: { type: DataTypes.INTEGER, allowNull: false },
+  position: { type: DataTypes.INTEGER}
 })
 
 const Rooms = sequelize.define('room', {
@@ -88,7 +89,8 @@ const Rooms = sequelize.define('room', {
 const RoomsPictures = sequelize.define('roomPictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
-  roomId: { type: DataTypes.INTEGER, allowNull: false }
+  roomId: { type: DataTypes.INTEGER, allowNull: false },
+  position: { type: DataTypes.INTEGER}
 })
 
 
@@ -139,7 +141,8 @@ const Aparts = sequelize.define('apart', {
 const ApartsPictures = sequelize.define('apartPictures', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: DataTypes.STRING, allowNull: false },
-  apartId: { type: DataTypes.INTEGER, allowNull: false }
+  apartId: { type: DataTypes.INTEGER, allowNull: false },
+  position: { type: DataTypes.INTEGER}
 })
 
 const Bookings = sequelize.define('booking', {

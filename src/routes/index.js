@@ -91,4 +91,8 @@ router.patch('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookin
 router.delete('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.deleteBooking)
 // tgBot
 router.post('/callback-modal', sendModalCallback);
+// change image order
+router.post('/apart/:apartId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), apartsPicturesController.changeOrder)
+router.post('/house/:houseId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), roomsPicturesController.changeOrder)
+router.post('/room/:roomId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), housesPicturesController.changeOrder)
 module.exports = router

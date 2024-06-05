@@ -19,7 +19,8 @@ class RoomsPicturesController {
     const { roomId } = req.params;
     try {
       const pictures = await RoomsPictures.findAll({
-        where: { roomId: roomId }
+        where: { roomId: roomId },
+        order: [['position', 'ASC']]
       });
       if (pictures.length === 0) {
         return res.json([]);
@@ -93,6 +94,26 @@ class RoomsPicturesController {
       res.json({ message: 'Picture deleted successfully' });
     } catch (e) {
       console.error("Error deleting file:", e);
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
+  async changeOrder(req, res) {
+    try {
+      const { roomId } = req.params;
+      const { images } = req.body;
+
+      await Promise.all(images.map(image => {
+        RoomsPictures.update({ position: image.position }, {
+          where: {
+            roomId: roomId,
+            id: image.id
+          }
+        })
+      }))
+
+      return res.json({ message: 'Order updated successfully' });
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   }

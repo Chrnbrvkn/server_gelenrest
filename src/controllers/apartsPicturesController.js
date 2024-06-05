@@ -18,7 +18,8 @@ class ApartsPicturesController {
     const { apartId } = req.params;
     try {
       const pictures = await ApartsPictures.findAll({
-        where: { apartId: apartId }
+        where: { apartId: apartId },
+        order: [['position', 'ASC']]
       });
       if (pictures.length === 0) {
         return res.json([]);
@@ -96,6 +97,26 @@ class ApartsPicturesController {
     } catch (e) {
       console.error(e);
       console.error("Error deleting file:", e);
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
+  async changeOrder(req, res) {
+    try {
+      const { apartId } = req.params;
+      const { images } = req.body;
+
+      await Promise.all(images.map(image => {
+        ApartsPictures.update({ position: image.position }, {
+          where: {
+            apartId: apartId,
+            id: image.id
+          }
+        })
+      }))
+
+      return res.json({ message: 'Order updated successfully' });
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   }

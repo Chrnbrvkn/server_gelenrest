@@ -19,7 +19,8 @@ class HousesPicturesController {
     const { houseId } = req.params
     try {
       const pictures = await HousesPictures.findAll({
-        where: { houseId: houseId }
+        where: { houseId: houseId },
+        order: [['position', 'ASC']]
       })
       if (pictures.length === 0) {
         return res.json([]);
@@ -99,7 +100,25 @@ class HousesPicturesController {
       return res.status(500).json({ error: e.message });
     }
   }
+  async changeOrder(req, res) {
+    try {
+      const { houseId } = req.params;
+      const { images } = req.body;
 
+      await Promise.all(images.map(image => {
+        HousesPictures.update({ position: image.position }, {
+          where: {
+            houseId: houseId,
+            id: image.id
+          }
+        })
+      }))
+
+      return res.json({ message: 'Order updated successfully' });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  }
 }
 
 module.exports = new HousesPicturesController()
