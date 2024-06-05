@@ -103,7 +103,7 @@ class HousesPicturesController {
   async changeOrder(req, res) {
     try {
       const { houseId } = req.params;
-      const images = req.body;
+      const { images } = req.body;
 
       await Promise.all(images.map(image => 
         HousesPictures.update({ position: image.position }, {
