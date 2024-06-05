@@ -103,16 +103,16 @@ class HousesPicturesController {
   async changeOrder(req, res) {
     try {
       const { houseId } = req.params;
-      const { images } = req.body;
+      const images = req.body;
 
-      await Promise.all(images.map(image => {
+      await Promise.all(images.map(image => 
         HousesPictures.update({ position: image.position }, {
           where: {
             houseId: houseId,
             id: image.id
           }
         })
-      }))
+      ))
 
       return res.json({ message: 'Order updated successfully' });
     } catch (e) {

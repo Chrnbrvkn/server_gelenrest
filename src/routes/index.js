@@ -82,7 +82,7 @@ router.get('/room/:roomId/pictures/:imageId', roomsPicturesController.getOnePict
 router.post('/room/:roomId/pictures', verifyToken, checkRole(ADMIN_ACCESS), upload.array('roomsPictures', 10), processAndSaveImage, roomsPicturesController.uploadPictures)
 router.delete('/room/:roomId/pictures/:imageId', verifyToken, checkRole(ADMIN_ACCESS), roomsPicturesController.deletePicture)
 
-// booking
+// booking 
 router.get('/reservedDates', bookingController.getReservedDates)
 router.get('/booking', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getBookings)
 router.get('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), bookingController.getOneBooking)
@@ -92,7 +92,7 @@ router.delete('/booking/:bookingId', verifyToken, checkRole(ADMIN_ACCESS), booki
 // tgBot
 router.post('/callback-modal', sendModalCallback);
 // change image order
-router.post('/apart/:apartId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), apartsPicturesController.changeOrder)
-router.post('/house/:houseId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), roomsPicturesController.changeOrder)
-router.post('/room/:roomId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), housesPicturesController.changeOrder)
+router.post('/apart/:apartId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), apartsPicturesController.changeOrder)
+router.post('/house/:houseId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), housesPicturesController.changeOrder)
+router.post('/room/:roomId/changeOrder', verifyToken, checkRole(ADMIN_ACCESS), upload.none(), roomsPicturesController.changeOrder)
 module.exports = router
