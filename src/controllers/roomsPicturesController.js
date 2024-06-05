@@ -103,10 +103,14 @@ class RoomsPicturesController {
       const { roomId } = req.params;
       const { images } = req.body;
 
+      const roomIdNum = parseInt(houseId, 10);
+      if (isNaN(roomIdNum)) {
+        return res.status(400).json({ error: `Invalid houseId: ${roomIdNum}` });
+      }
       await Promise.all(images.map(image => 
         RoomsPictures.update({ position: image.position }, {
           where: {
-            roomId: roomId,
+            roomId: roomIdNum,
             id: image.id
           }
         })
